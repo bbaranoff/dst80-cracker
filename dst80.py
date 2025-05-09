@@ -1,212 +1,104 @@
-#!/usr/bin/env python3
-"""
-OpenCL-accelerated DST-80 key search
+#https://gist.githubusercontent.com/rqu1/f236b68a2b3efd9b22eacd3f7003cd15/raw/fa01e2334cc8b76989a8e10bb1e40da6a7929763/dst80.py
+def bit(x,n): return (x>>n)&1
 
-Usage:
-  python dst80.py <challenge_hex> <target_signature_hex> <max_keys>
+def bit_slice(x,msb,lsb): return (x&((2<<msb)-1))>>lsb
 
-Dependencies:
-  pip install numpy pyopencl
-"""
-import argparse
-import numpy as np
-import pyopencl as cl
-import dst80_verif  # Python reference for verification
-from multiprocessing import Process, Manager
+def bv2i(*args):
+    o=0
+    for i in args: o=(o<<1)|i
+    return o
 
-# ---------------------------
-# Configuration
-# ---------------------------
-CHUNK = 1024    # number of keys per batch
-NUM_PROCS = 32  # number of parallel worker processes
+def fa(x): return bit(0x3a35acc5,x)
 
-# ---------------------------
-# OpenCL initialization
-# ---------------------------
-def init_opencl():
-    # Load and build the OpenCL kernel
-    with open('dst80_kernel.cl', 'r') as f:
-        src = f.read()
-    ctx = cl.create_some_context()
-    queue = cl.CommandQueue(ctx)
-    program = cl.Program(ctx, src).build()
-    # Allocate device buffers for up to CHUNK elements
-    buf_l = cl.Buffer(ctx, cl.mem_flags.READ_ONLY,  size=8 * CHUNK)
-    buf_r = cl.Buffer(ctx, cl.mem_flags.READ_ONLY,  size=8 * CHUNK)
-    buf_c = cl.Buffer(ctx, cl.mem_flags.READ_ONLY,  size=8 * CHUNK)
-    buf_o = cl.Buffer(ctx, cl.mem_flags.WRITE_ONLY, size=4 * CHUNK)
-    return queue, program, buf_l, buf_r, buf_c, buf_o
+def fb(x): return bit(0xac35742e,x)
 
-# ---------------------------
-# Key packing
-# ---------------------------
-def make_kl(i, j, k):
-    # pack 5-byte keyl: bytes [i,j,k,0xAA,0xAA]
-    return ((i.astype(np.uint64) << 32) |
-            (j.astype(np.uint64) << 24) |
-            (k.astype(np.uint64) << 16) |
-            (np.uint64(0xAA)         <<  8) |
-             np.uint64(0xAA))
+def fc(x): return bit(0xb81d8bd1,x)
 
-def make_kr(i, j, k):
-    # pack 5-byte keyr: bytes [0xAA,0xAA,255-k,255-j,255-i]
-    return ((np.uint64(0xAA) << 32) |
-            (np.uint64(0xAA) << 24) |
-            ((255 - k).astype(np.uint64) << 16) |
-            ((255 - j).astype(np.uint64) <<  8) |
-             (255 - i).astype(np.uint64))
+def fd(x): return bit(0x5acc335a,x)
 
-# ---------------------------
-# Batch compute via OpenCL
-# ---------------------------
-def compute_chunk(queue, program, buf_l, buf_r, buf_c, buf_o, kl_arr, kr_arr, C):
-    n = kl_arr.size
-    # prepare challenge array
-    chal = np.full(n, np.uint64(C), dtype=np.uint64)
-    # copy to device
-    cl.enqueue_copy(queue, buf_l, kl_arr)
-    cl.enqueue_copy(queue, buf_r, kr_arr)
-    cl.enqueue_copy(queue, buf_c, chal)
-    # launch kernel
-    program.dst80_kernel(queue, (n,), None, buf_l, buf_r, buf_c, buf_o)
-    # read back results
-    out = np.empty(n, dtype=np.uint32)
-    cl.enqueue_copy(queue, out, buf_o)
-    queue.finish()
+def fe(x): return bit(0xe247,x)
+
+def fg(x): return bit(0x4e72,x)
+
+def h(x): return (0x1f9826f4>>(2*x))&3
+#def h(x): return [0,1,3,3,2,1,2,0,0,2,1,2,3,3,1,0][x]
+
+def fn(s,k):
+    return (
+        fd(bv2i(bit(s,32),bit(k,32),bit(s,24),bit(k,24),bit(s,16))),
+        fe(bv2i(bit(k,16),bit(s, 8),bit(k, 8),bit(k, 0))),
+        fb(bv2i(bit(s,33),bit(k,33),bit(s,25),bit(k,25),bit(s,17))),
+        fe(bv2i(bit(k,17),bit(s, 9),bit(k, 9),bit(k, 1))),
+
+        fd(bv2i(bit(s,34),bit(k,34),bit(s,26),bit(k,26),bit(s,18))),
+        fc(bv2i(bit(k,18),bit(s,10),bit(k,10),bit(s, 2),bit(k, 2))),
+        fb(bv2i(bit(s,35),bit(k,35),bit(s,27),bit(k,27),bit(s,19))),
+        fa(bv2i(bit(k,19),bit(s,11),bit(k,11),bit(s, 3),bit(k, 3))),
+
+        fd(bv2i(bit(s,36),bit(k,36),bit(s,28),bit(k,28),bit(s,20))),
+        fc(bv2i(bit(k,20),bit(s,12),bit(k,12),bit(s, 4),bit(k, 4))),
+        fb(bv2i(bit(s,37),bit(k,37),bit(s,29),bit(k,29),bit(s,21))),
+        fa(bv2i(bit(k,21),bit(s,13),bit(k,13),bit(s, 5),bit(k, 5))),
+
+        fd(bv2i(bit(s,38),bit(k,38),bit(s,30),bit(k,30),bit(s,22))),
+        fc(bv2i(bit(k,22),bit(s,14),bit(k,14),bit(s, 6),bit(k, 6))),
+        fb(bv2i(bit(s,39),bit(k,39),bit(s,31),bit(k,31),bit(s,23))),
+        fa(bv2i(bit(k,23),bit(s,15),bit(k,15),bit(s, 7),bit(k, 7))),
+    )[::-1]
+
+def g(s,k):
+    fx=fn(s,k)
+    return (
+        fg(bv2i(*fx[ :4])),
+        fg(bv2i(*fx[4:8])),
+        fg(bv2i(*fx[8:12])),
+        fg(bv2i(*fx[12:]))
+    )[::-1]
+
+def f(k,s):
+    return h(bv2i(*g(s,k)))
+
+def p1(x):
+    out=x&(0b10100101)
+    out|=bit(x,6)<<3
+    out|=bit(x,4)<<1
+    out|=bit(x,3)<<6
+    out|=bit(x,1)<<4
+    return out
+    
+def p2(x):
+    out=0
+    for i in range(0,40,8): 
+        byte=bit_slice(x,i+8,i)
+        out|=(p1(byte)<<i)
     return out
 
-# ---------------------------
-# Worker process
-# ---------------------------
-def worker(pid, challenge, target, max_keys, stop_event, result_dict):
-    """Worker process: prints debug info on the first iteration and searches chunks"""
-    # initialize OpenCL locally (per process)
-    queue, program, buf_l, buf_r, buf_c, buf_o = init_opencl()
-    stride = NUM_PROCS * CHUNK
-    start = pid * CHUNK
-    # Debug: announce worker and first base
-    #print(f"Worker {pid} started: processing keys starting at index {start}")
+def dst80_merge(keyl,keyr):
+    keyl = p2(keyl)
+    keyr = p2(keyr)
+    if bit(keyl,39)==1: keyl = 0x7fffffffff^keyl
+    if bit(keyr,39)==1: keyr = 0x7fffffffff^keyr
+    return (bit_slice(keyl,39,20)<<20)|bit_slice(keyr,39,20)
+    
+def lfsr_round(x):
+    return (x>>1)|((bit(x,0)^bit(x,2)^bit(x,19)^bit(x,21))<<39)
 
-    # iterate over chunks assigned to this pid
-    for base in range(start, max_keys, stride):
-        if stop_event.is_set():
-            return
-        sz = min(CHUNK, max_keys - base)
-        # Debug: show this chunk
-        #print(f"Worker {pid}: chunk base={base}, size={sz}")
-        idx = np.arange(base, base + sz, dtype=np.uint32)
-        i = idx % 255
-        j = (idx // 255) % 255
-        k = (idx // (255 * 255)) % 255
+def dst80_round(keyl,keyr,s):
+    k=dst80_merge(keyl,keyr)
+    s=(s>>2)|((f(k,s)^(s&3))<<38)
+    keyr=lfsr_round(keyr)
+    keyl=lfsr_round(keyl)
+    return keyl,keyr,s
 
-        # pack keys
-        kl = make_kl(i, j, k)
-        kr = make_kr(i, j, k)
+def dst80_rounds(keyl,keyr,s,nrounds):
+    for i in range(nrounds):
+        keyl,keyr,s=dst80_round(keyl,keyr,s)
+    return s
 
-                # compute signatures
-        sigs = compute_chunk(queue, program, buf_l, buf_r, buf_c, buf_o,
-                             kl, kr, challenge)
-        # Debug: on first iteration, print the returned sigs array
-        if base == start:
-            #print(f"Worker {pid} first-iteration sigs: {sigs.tolist()}")
-            # Check first signature for pid 0 against target
-            if pid == 0:
-                first_sig = int(sigs[0])
-                keyl0 = int(kl[0])
-                keyr0 = int(kr[0])
-                print(f"PID 0 first sig=0x{first_sig:06x}, keyl=0x{keyl0:010x}, keyr=0x{keyr0:010x}")
-                #if first_sig == target:
-                #    print("First iteration matches target!")
-                #else:
-                #    print("First iteration DOES NOT match target.")
+def dst80(keyl,keyr,challenge):
+    return dst80_rounds(keyl,keyr,challenge,200)&0xffffff
 
-        # check for matches
-        for loc, sig in enumerate(sigs.tolist()):
-            if sig != target:
-                continue
-            # verify against Python reference implementation
-            keyl_int = int(kl[loc])
-            keyr_int = int(kr[loc])
-            if dst80_verif.dst80(keyl_int, keyr_int, challenge) != target:
-                continue
-            # Print match info including pid
-            print(f"Found verified match @pid={pid}: keyl=0x{keyl_int:010x}, keyr=0x{keyr_int:010x}, sig=0x{sig:06x}, target=0x{target:06x}")
-            result_dict['kl'] = f"{keyl_int:010x}"
-            result_dict['kr'] = f"{keyr_int:010x}"
-            stop_event.set()
-            return
-    # initialize OpenCL locally (per process)
-    queue, program, buf_l, buf_r, buf_c, buf_o = init_opencl()
-    stride = NUM_PROCS * CHUNK
-    start = pid * CHUNK
-
-    # iterate over chunks assigned to this pid
-    for base in range(start, max_keys, stride):
-        if stop_event.is_set():
-            return
-        sz = min(CHUNK, max_keys - base)
-        idx = np.arange(base, base + sz, dtype=np.uint32)
-        i = idx % 255
-        j = (idx // 255) % 255
-        k = (idx // (255 * 255)) % 255
-
-        # pack keys
-        kl = make_kl(i, j, k)
-        kr = make_kr(i, j, k)
-
-        # compute signatures
-        sigs = compute_chunk(queue, program, buf_l, buf_r, buf_c, buf_o,
-                             kl, kr, challenge)
-
-                # check for matches
-        for loc, sig in enumerate(sigs.tolist()):
-            if sig != target:
-                continue
-            # verify against Python reference implementation
-            keyl_int = int(kl[loc])
-            keyr_int = int(kr[loc])
-            if dst80_verif.dst80(keyl_int, keyr_int, challenge) != target:
-                continue
-            # Print match info including pid
-            #print(f"Found verified match @pid={pid}: keyl=0x{keyl_int:010x}, keyr=0x{keyr_int:010x}, sig=0x{sig:06x}, target=0x{target:06x}")
-            result_dict['kl'] = f"{keyl_int:010x}"
-            result_dict['kr'] = f"{keyr_int:010x}"
-            stop_event.set()
-            return
 
 # ---------------------------
-# Main entry point
-# ---------------------------
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='OpenCL DST-80 key search')
-    parser.add_argument('challenge',  help='Hex challenge, e.g. 0xC212345678')
-    parser.add_argument('target',     help='Hex target sig, e.g. 0xb01946')
-    parser.add_argument('max_keys', type=int, help='Max keys to search')
-    args = parser.parse_args()
-
-    C = int(args.challenge, 16)
-    T = int(args.target, 16)
-    M = args.max_keys
-
-    mgr   = Manager()
-    stop  = mgr.Event()
-    res   = mgr.dict()
-
-    # Spawn worker processes and print their OS PIDs
-    procs = []
-    for pid in range(NUM_PROCS):
-        p = Process(target=worker,
-                    args=(pid, C, T, M, stop, res))
-        p.start()
-        #print(f"Spawned worker {pid} as OS PID {p.pid}")
-        procs.append(p)
-
-    # Wait for all to finish
-    for p in procs:
-        p.join()
-
-    # Report result
-    if 'kl' in res:
-        print(f"Match: keyl={res['kl']}, keyr={res['kr']}, sig=0x{T:06x}")
-    else:
-        print(f"No match after searching {M} keys.")
+# test vectors
+print(hex(dst80(0x110000aaaa,0xaaaaffffee,0xC212345678)))
