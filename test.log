@@ -1,0 +1,95 @@
+(myenv) nirvana@legion:~/dst80-cracker$ time python3 dst80_reverse.py 0xC212345678 0x64cfd0 281474976710656
+PID 0 first sig=0x023710, keyl=0x0000000000, keyr=0xffffffffff
+Found verified match @pid=1: keyl=0xccb6190000, keyr=0xffffe64933, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=1: keyl=0xa9ab930000, keyr=0xffff6c5456, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=3: keyl=0x72220d0200, keyr=0xfffdf2dd8d, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=13: keyl=0xbbd1100200, keyr=0xfffdef2e44, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=8: keyl=0xee585e0200, keyr=0xfffda1a711, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=6: keyl=0x0c4f5e0200, keyr=0xfffda1b0f3, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=25: keyl=0xe2d1790200, keyr=0xfffd862e1d, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=19: keyl=0xf3de4d0300, keyr=0xfffcb2210c, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=23: keyl=0x9b58430400, keyr=0xfffbbca764, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=20: keyl=0xf89dac0400, keyr=0xfffb536207, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=15: keyl=0xe4f1620500, keyr=0xfffa9d0e1b, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=19: keyl=0xb819ae0500, keyr=0xfffa51e647, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=29: keyl=0x5230e50500, keyr=0xfffa1acfad, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=30: keyl=0x4f95570600, keyr=0xfff9a86ab0, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=1: keyl=0x4fb29f0600, keyr=0xfff9604db0, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=19: keyl=0xc2cbc70600, keyr=0xfff938343d, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=17: keyl=0x2172a00700, keyr=0xfff85f8dde, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=12: keyl=0xd5b1d30d00, keyr=0xfff22c4e2a, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=1: keyl=0xbf573f0f00, keyr=0xfff0c0a840, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=20: keyl=0xf069a51000, keyr=0xffef5a960f, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=18: keyl=0x1b0cb91000, keyr=0xffef46f3e4, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=1: keyl=0xd53d761100, keyr=0xffee89c22a, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=3: keyl=0xc3c2f31100, keyr=0xffee0c3d3c, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=1: keyl=0xf5d4031200, keyr=0xffedfc2b0a, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=23: keyl=0xa1faed1400, keyr=0xffeb12055e, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=28: keyl=0x9e876b1600, keyr=0xffe9947861, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=28: keyl=0xa6b7c31600, keyr=0xffe93c4859, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=4: keyl=0xa6881e1700, keyr=0xffe8e17759, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=4: keyl=0x7bbb771700, keyr=0xffe8884484, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=28: keyl=0xc6458c1700, keyr=0xffe873ba39, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=28: keyl=0x37641c1800, keyr=0xffe7e39bc8, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=17: keyl=0xbc69351800, keyr=0xffe7ca9643, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=11: keyl=0xfe47b31900, keyr=0xffe64cb801, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=14: keyl=0x709d581a00, keyr=0xffe5a7628f, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=15: keyl=0xeda61f1c00, keyr=0xffe3e05912, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=5: keyl=0x2d25f11c00, keyr=0xffe30edad2, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=11: keyl=0xf9b3722000, keyr=0xffdf8d4c06, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=18: keyl=0xc81d1c2200, keyr=0xffdde3e237, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=0: keyl=0x63f5ee2300, keyr=0xffdc110a9c, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=20: keyl=0x48bf6d2400, keyr=0xffdb9240b7, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=0: keyl=0x00fcf32400, keyr=0xffdb0c03ff, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=14: keyl=0x1f50c62700, keyr=0xffd839afe0, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=28: keyl=0xf3c1272a00, keyr=0xffd5d83e0c, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=12: keyl=0xbc61972a00, keyr=0xffd5689e43, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=0: keyl=0xa287422a00, keyr=0xffd5bd785d, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=3: keyl=0x62499c2a00, keyr=0xffd563b69d, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=10: keyl=0x60b4452b00, keyr=0xffd4ba4b9f, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=20: keyl=0x97cebf2b00, keyr=0xffd4403168, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=7: keyl=0x7b81352d00, keyr=0xffd2ca7e84, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=11: keyl=0x7f6fe42d00, keyr=0xffd21b9080, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=10: keyl=0x117ef02f00, keyr=0xffd00f81ee, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=19: keyl=0x13d88d3000, keyr=0xffcf7227ec, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=30: keyl=0x633f6d3100, keyr=0xffce92c09c, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=9: keyl=0x8c0cbd3100, keyr=0xffce42f373, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=12: keyl=0x0e0bb73200, keyr=0xffcd48f4f1, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=9: keyl=0x24940c3900, keyr=0xffc6f36bdb, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=14: keyl=0xba68f13b00, keyr=0xffc40e9745, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=14: keyl=0xf534173c00, keyr=0xffc3e8cb0a, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=9: keyl=0x68aedc3b00, keyr=0xffc4235197, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=0: keyl=0x1177d33b00, keyr=0xffc42c88ee, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=13: keyl=0x298a463d00, keyr=0xffc2b975d6, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=10: keyl=0x757c053e00, keyr=0xffc1fa838a, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=4: keyl=0x08704c3e00, keyr=0xffc1b38ff7, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=26: keyl=0x1b93b23e00, keyr=0xffc14d6ce4, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=23: keyl=0x00db9b3e00, keyr=0xffc16424ff, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=28: keyl=0x67d1cc3e00, keyr=0xffc1332e98, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=22: keyl=0xe8e8263f00, keyr=0xffc0d91717, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=6: keyl=0x0cef493f00, keyr=0xffc0b610f3, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=27: keyl=0x1959943f00, keyr=0xffc06ba6e6, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=16: keyl=0x9f345a4100, keyr=0xffbea5cb60, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=6: keyl=0x754f7d4200, keyr=0xffbd82b08a, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=21: keyl=0xb542d94200, keyr=0xffbd26bd4a, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=17: keyl=0xf1c6e44300, keyr=0xffbc1b390e, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=22: keyl=0x5bef314400, keyr=0xffbbce10a4, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=16: keyl=0xb23fe94600, keyr=0xffb916c04d, sig=0x64cfd0, target=0x64cfd0
+Found verified match @pid=30: keyl=0x796ba64900, keyr=0xffb6599486, sig=0x64cfd0, target=0x64cfd0
+^CProcess Process-12:
+Process Process-9:
+
+
+[.........SNIP..................]
+
+
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/nirvana/myenv/lib/python3.14/site-packages/pyopencl/__init__.py", line 2033, in enqueue_copy
+    return _cl._enqueue_read_buffer(queue, src, dest, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+
+
+real	7m36,538s
+user	0m0,117s
+sys	0m0,022s
