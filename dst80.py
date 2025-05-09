@@ -101,5 +101,7 @@ def dst80(keyl,keyr,challenge):
 
 # ---------------------------
 # test vectors
-print(hex(dst80(0xdededeaaaa,0xaaaa212121,0xC212345678)))
-print(" = hex(dst80(0xdededeaaaa,0xaaaa212121,0xC212345678))")
+print("hex(dst80(0xdeadbeafaa,0xaa0a412152,0xC212345679)) = ")
+print(hex(dst80(0xdeadbeafaa,0xaa0a412152,0xC212345679)))
+print("hex(dst80(0xccb6190000,0xffffe64933,0xC212345679)) = ")
+print(hex(dst80(0xccb6190000,0xffffe64933,0xC212345679)))
