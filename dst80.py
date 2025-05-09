@@ -101,4 +101,5 @@ def dst80(keyl,keyr,challenge):
 
 # ---------------------------
 # test vectors
-print(hex(dst80(0x110000aaaa,0xaaaaffffee,0xC212345678)))
+print(hex(dst80(0xdededeaaaa,0xaaaa212121,0xC212345678)))
+print(" = hex(dst80(0xdededeaaaa,0xaaaa212121,0xC212345678))")

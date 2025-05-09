@@ -40,18 +40,18 @@ def init_opencl():
 # ---------------------------
 # Key packing
 # ---------------------------
-def make_kl(i, j, k):
+def make_kl(i, j, k, l, m):
     # pack 5-byte keyl: bytes [i,j,k,0xAA,0xAA]
     return ((i.astype(np.uint64) << 32) |
             (j.astype(np.uint64) << 24) |
             (k.astype(np.uint64) << 16) |
-            (np.uint64(0xAA)         <<  8) |
-             np.uint64(0xAA))
+            (l.astype(np.uint64) <<  8) |
+            m.astype(np.uint64))
 
-def make_kr(i, j, k):
+def make_kr(i, j, k, l, m):
     # pack 5-byte keyr: bytes [0xAA,0xAA,255-k,255-j,255-i]
-    return ((np.uint64(0xAA) << 32) |
-            (np.uint64(0xAA) << 24) |
+    return (((255 - m).astype(np.uint64) << 32) |
+            ((255 - l).astype(np.uint64) << 24) |
             ((255 - k).astype(np.uint64) << 16) |
             ((255 - j).astype(np.uint64) <<  8) |
              (255 - i).astype(np.uint64))
@@ -98,10 +98,12 @@ def worker(pid, challenge, target, max_keys, stop_event, result_dict):
         i = idx % 255
         j = (idx // 255) % 255
         k = (idx // (255 * 255)) % 255
+        l = (idx // (255 * 255 * 255)) % 255
+        m = (idx // (255 * 255 * 255 * 255)) % 255
 
         # pack keys
-        kl = make_kl(i, j, k)
-        kr = make_kr(i, j, k)
+        kl = make_kl(i, j, k, l, m)
+        kr = make_kr(i, j, k, l, m)
 
                 # compute signatures
         sigs = compute_chunk(queue, program, buf_l, buf_r, buf_c, buf_o,
@@ -149,10 +151,12 @@ def worker(pid, challenge, target, max_keys, stop_event, result_dict):
         i = idx % 255
         j = (idx // 255) % 255
         k = (idx // (255 * 255)) % 255
+        l = (idx // (255 * 255 * 255)) % 255
+        m = (idx // (255 * 255 * 255 * 255)) % 255
 
         # pack keys
-        kl = make_kl(i, j, k)
-        kr = make_kr(i, j, k)
+        kl = make_kl(i, j, k, l, m)
+        kr = make_kr(i, j, k, l, m)
 
         # compute signatures
         sigs = compute_chunk(queue, program, buf_l, buf_r, buf_c, buf_o,
