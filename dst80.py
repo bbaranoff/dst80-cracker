@@ -115,10 +115,10 @@ def worker(pid, challenge, target, max_keys, stop_event, result_dict):
                 keyl0 = int(kl[0])
                 keyr0 = int(kr[0])
                 print(f"PID 0 first sig=0x{first_sig:06x}, keyl=0x{keyl0:010x}, keyr=0x{keyr0:010x}")
-                if first_sig == target:
-                    print("First iteration matches target!")
-                else:
-                    print("First iteration DOES NOT match target.")
+                #if first_sig == target:
+                #    print("First iteration matches target!")
+                #else:
+                #    print("First iteration DOES NOT match target.")
 
         # check for matches
         for loc, sig in enumerate(sigs.tolist()):
