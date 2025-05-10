@@ -1,5 +1,8 @@
 # DST80 Cracker
 
+takes challenge/signature and max number of keys to check as arguments
+need to know manufacturer constant to finish can be done by crossing the result on two challenge response that will give those constants 
+
 
 ![](algo.png)
 
