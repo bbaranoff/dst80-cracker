@@ -1,7 +1,7 @@
 # DST80 Cracker
 
 
-![](bash.png=)
+![](algo.png)
 
 ``
 pip3 install numpy opencl  
@@ -18,4 +18,4 @@ Found verified match @pid=1: keyl=0xccb6190000, keyr=0xffffe64933, sig=0x64cfd0,
 Found verified match @pid=1: keyl=0xa9ab930000, keyr=0xffff6c5456, sig=0x64cfd0, target=0x64cfd0
 ```
 
-![](algo.png)
+![](bash.png)
