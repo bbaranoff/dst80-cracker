@@ -2,6 +2,8 @@
 
 takes challenge/signature and max number of keys to check as arguments
 need to know manufacturer constant to finish can be done by crossing the result on two challenge response that will give those constants it should takes ~1-2 days with RTX4090 then when constant known 1min
+As you can see in the logs (test.log) since i bruteforce 2^40 keys with dst80_reverse_purebrute.py to produce 2^24 signatures they are many false positive to get rid of that you need the manufacturer constants to reducd bruteforce of two bytes (2^16) and test 2^24 keys for the 2^24 signatures.
+By crossing the results like indicated : testing all challenges/response one time will give some keys then crossing with a new challenge/response then you will have very few false positive ~ 0 if there is no, you will know your manufacturer constants. Then change the algorithm dst80_reverse_aaaa_cte.py with the manufacturer constants to hack the keyfobs belong to that manufacturer within a very short time :)
 
 
 ![](algo.png)
