@@ -1,5 +1,9 @@
 # DST80 Cracker
 
+alg3 from iacr research
+https://tches.iacr.org/index.php/TCHES/article/view/8546
+optimized in opencl
+
 takes challenge/signature and max number of keys to check as arguments
 need to know manufacturer constant to finish can be done by crossing the result on two challenge response that will give those constants it should takes ~1-2 days with RTX4090 then when constant known 1min
 As you can see in the logs (test.log) since i bruteforce 2^40 keys with dst80_reverse_purebrute.py to produce 2^24 signatures they are many false positive to get rid of that you need the manufacturer constants to reducd bruteforce of two bytes (2^16) and test 2^24 keys for the 2^24 signatures.
