@@ -1,7 +1,7 @@
 # DST80 Cracker
 
 takes challenge/signature and max number of keys to check as arguments
-need to know manufacturer constant to finish can be done by crossing the result on two challenge response that will give those constants 
+need to know manufacturer constant to finish can be done by crossing the result on two challenge response that will give those constants it should takes ~1-2 with RTX4090 then when constant known 1min
 
 
 ![](algo.png)
